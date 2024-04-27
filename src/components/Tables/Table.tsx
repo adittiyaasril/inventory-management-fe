@@ -1,39 +1,26 @@
+"use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Product } from "@/types/product";
 import Link from "next/link";
-
-const productData: Product[] = [
-  {
-    image: "/images/product/product-01.png",
-    name: "Apple Watch Series 7",
-    category: "Electronics",
-    price: 296,
-    stock: 22,
-  },
-  {
-    image: "/images/product/product-02.png",
-    name: "Macbook Pro M1",
-    category: "Electronics",
-    price: 546,
-    stock: 12,
-  },
-  {
-    image: "/images/product/product-03.png",
-    name: "Dell Inspiron 15",
-    category: "Electronics",
-    price: 443,
-    stock: 64,
-  },
-  {
-    image: "/images/product/product-04.png",
-    name: "HP Probook 450",
-    category: "Electronics",
-    price: 499,
-    stock: 72,
-  },
-];
+import axios from "axios";
+import { Product } from "@/types/product";
 
 const Table = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("https://soal3-be.vercel.app/products");
+      setProducts(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex items-center justify-between px-4 py-6 md:px-6 xl:px-7.5">
@@ -65,7 +52,7 @@ const Table = () => {
         </div>
       </div>
 
-      {productData.map((product, key) => (
+      {products.map((product, key) => (
         <div
           className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
           key={key}
@@ -102,10 +89,16 @@ const Table = () => {
           </div>
           <div className="col-span-1 flex items-center">
             <div className="">
-              <Link href="/product/edit" className="px-2 text-primary">
+              <Link
+                href={`/product/edit/${product.id}`}
+                className="px-2 text-primary"
+              >
                 Edit
               </Link>
-              <Link href="/" className="px-2 text-danger">
+              <Link
+                href={`/product/delete/${product.id}`}
+                className="px-2 text-danger"
+              >
                 Delete
               </Link>
             </div>
