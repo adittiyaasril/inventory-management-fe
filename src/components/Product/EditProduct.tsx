@@ -1,5 +1,11 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  ChangeEvent,
+  FormEvent,
+} from "react";
 import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import SelectGroupOne from "@/components/SelectGroup/SelectGroupOne";
@@ -35,7 +41,7 @@ const EditProduct = () => {
     }
   }, [id, fetchProduct]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setProduct((prevProduct) => ({
       ...prevProduct,
@@ -43,7 +49,7 @@ const EditProduct = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await axios.put(`https://soal3-be.vercel.app/products/${id}`, product);
@@ -71,13 +77,13 @@ const EditProduct = () => {
               type="text"
               id="productName"
               name="name"
-              value={product.name} // Menggunakan nilai sebelumnya dari produk
+              value={product.name}
               onChange={handleInputChange}
               className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
           </div>
 
-          <SelectGroupOne />
+          <SelectGroupOne handleCategoryChange={() => {}} />
 
           <div className="mb-4.5">
             <label
@@ -90,7 +96,7 @@ const EditProduct = () => {
               type="text"
               id="productImage"
               name="image"
-              value={product.image} // Menggunakan nilai sebelumnya dari produk
+              value={product.image}
               onChange={handleInputChange}
               className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
@@ -107,7 +113,7 @@ const EditProduct = () => {
               type="text"
               id="productStock"
               name="stock"
-              value={product.stock} // Menggunakan nilai sebelumnya dari produk
+              value={product.stock}
               onChange={handleInputChange}
               className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
@@ -124,7 +130,7 @@ const EditProduct = () => {
               type="text"
               id="productPrice"
               name="price"
-              value={product.price} // Menggunakan nilai sebelumnya dari produk
+              value={product.price}
               onChange={handleInputChange}
               className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
