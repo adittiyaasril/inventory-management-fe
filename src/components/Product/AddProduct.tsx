@@ -75,7 +75,7 @@ const AddProduct = () => {
               htmlFor="productImage"
               className="mb-3 block text-sm font-medium text-black dark:text-white"
             >
-              Image
+              Image Url
             </label>
             <input
               type="text"
