@@ -99,14 +99,14 @@ const Table = () => {
           <div className="col-span-1 flex items-center">
             <div className="">
               <Link
-                href="#"
-                onClick={() => deleteProduct(product.id)}
+                href={`/product/edit/${product.id}`}
                 className="px-2 text-primary"
               >
                 Edit
               </Link>
               <Link
-                href={`/product/delete/${product.id}`}
+                href="#"
+                onClick={() => deleteProduct(product.id)}
                 className="px-2 text-danger"
               >
                 Delete
