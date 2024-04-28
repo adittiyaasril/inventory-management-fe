@@ -1,4 +1,3 @@
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Table from "@/components/Tables/Table";
 
 import { Metadata } from "next";

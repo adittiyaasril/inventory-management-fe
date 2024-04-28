@@ -1,14 +1,40 @@
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { jwtDecode } from 'jwt-decode';
 import DarkModeSwitcher from "./DarkModeSwitcher";
-import DropdownMessage from "./DropdownMessage";
-import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
-import Image from "next/image";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [name, setName] = useState('');
+
+
+
+  useEffect(() => {
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      ?.split("=")[1];
+  
+    if (token) {
+      setIsLoggedIn(true);
+      const decoded = jwtDecode<JwtPayload>(token);
+      setName(decoded.name);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+
+  const handleLogout: () => void = () => {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    setIsLoggedIn(false);
+  };
+
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
@@ -101,7 +127,15 @@ const Header = (props: {
           </ul>
 
           {/* <!-- User Area --> */}
-          <DropdownUser />
+          {isLoggedIn ? (
+            <DropdownUser name={name} handleLogout={handleLogout} />
+          ) : (
+            <Link href="/auth/signin">
+              <button className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+                Login
+              </button>
+            </Link>
+          )}
           {/* <!-- User Area --> */}
         </div>
       </div>

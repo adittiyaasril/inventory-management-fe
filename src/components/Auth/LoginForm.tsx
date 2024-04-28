@@ -17,8 +17,10 @@ const LoginForm: React.FC = () => {
           email,
           password,
         },
+        { withCredentials: true },
       );
       console.log("Login successful:", response.data);
+      document.cookie = `token=${response.data.token}`;
       router.push("/product");
     } catch (error: any) {
       console.error("Login error:", error.response.data);
