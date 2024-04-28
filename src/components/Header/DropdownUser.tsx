@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const DropdownUser = ({ name, handleLogout }) => {
+interface DropdownUserProps {
+  name: string;
+  handleLogout: () => void;
+}
+
+const DropdownUser = ({ name, handleLogout }: DropdownUserProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);

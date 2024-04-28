@@ -1,36 +1,37 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import DropdownUser from "./DropdownUser";
+
+interface JwtPayload {
+  name: string;
+}
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [name, setName] = useState('');
-
-
+  const [name, setName] = useState("");
 
   useEffect(() => {
     const token = document.cookie
       .split("; ")
       .find((row) => row.startsWith("token="))
       ?.split("=")[1];
-  
+
     if (token) {
       setIsLoggedIn(true);
-      const decoded = jwtDecode<JwtPayload>(token);
+      const decoded = jwtDecode(token) as JwtPayload;
       setName(decoded.name);
     } else {
       setIsLoggedIn(false);
     }
   }, []);
 
-
-  const handleLogout: () => void = () => {
+  const handleLogout = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     setIsLoggedIn(false);
   };
