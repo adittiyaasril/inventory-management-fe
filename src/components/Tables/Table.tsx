@@ -21,6 +21,15 @@ const Table = () => {
     fetchProducts();
   }, []);
 
+  const deleteProduct = async (productId: number) => {
+    try {
+      await axios.delete(`https://soal3-be.vercel.app/products/${productId}`);
+      fetchProducts();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex items-center justify-between px-4 py-6 md:px-6 xl:px-7.5">
@@ -90,7 +99,8 @@ const Table = () => {
           <div className="col-span-1 flex items-center">
             <div className="">
               <Link
-                href={`/product/edit/${product.id}`}
+                href="#"
+                onClick={() => deleteProduct(product.id)}
                 className="px-2 text-primary"
               >
                 Edit
