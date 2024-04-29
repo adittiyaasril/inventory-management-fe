@@ -50,6 +50,7 @@ const RegisterForm = () => {
             <div className="relative">
               <input
                 type="text"
+                required
                 placeholder="Enter your full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -85,6 +86,7 @@ const RegisterForm = () => {
             <div className="relative">
               <input
                 type="email"
+                required
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -116,6 +118,7 @@ const RegisterForm = () => {
             <div className="relative">
               <input
                 type="text"
+                required
                 placeholder="Enter your phone number"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
@@ -151,6 +154,7 @@ const RegisterForm = () => {
             <div className="relative">
               <input
                 type="password"
+                required
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -186,6 +190,7 @@ const RegisterForm = () => {
             <div className="relative">
               <input
                 type="password"
+                required
                 placeholder="Re-enter your password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}

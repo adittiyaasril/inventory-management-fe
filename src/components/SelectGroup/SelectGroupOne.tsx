@@ -16,6 +16,7 @@ const SelectGroupOne: React.FC<SelectGroupOneProps> = ({
       </label>
       <div className="relative z-20 bg-transparent dark:bg-form-input">
         <select
+          required
           value={selectedOption}
           onChange={(e) => {
             setSelectedOption(e.target.value);
