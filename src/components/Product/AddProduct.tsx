@@ -8,8 +8,7 @@ import { Product } from "@/types/product";
 const AddProduct = () => {
   const router = useRouter();
 
-  const [product, setProduct] = useState<Product>({
-    id: 0,
+  const [product, setProduct] = useState<Partial<Product>>({
     image: "",
     name: "",
     category: "",
