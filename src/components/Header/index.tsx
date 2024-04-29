@@ -115,6 +115,7 @@ const Header = (props: {
                 type="text"
                 placeholder="Type to search..."
                 className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
+                disabled
               />
             </div>
           </form>

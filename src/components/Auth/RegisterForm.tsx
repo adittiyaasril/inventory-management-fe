@@ -4,6 +4,9 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
 
+import { toast, ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const RegisterForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,17 +30,23 @@ const RegisterForm = () => {
       });
       console.log("Registration successful:", response.data);
 
-      router.push("/auth/signin");
+      toast.success("Registration successful", {
+        onClose: () => {
+          router.push("/auth/signin");
+        },
+      });
     } catch (error: any) {
       console.error(
         "Registration error:",
         error.response?.data || error.message,
       );
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
   return (
     <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
+      <ToastContainer autoClose={1000} transition={Bounce} />
       <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
         <h2 className="mb-9 text-center text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
           Sign Up

@@ -58,7 +58,6 @@ const AddProduct = () => {
             </label>
             <input
               type="text"
-              required
               id="productName"
               name="name"
               value={product.name}
@@ -79,7 +78,6 @@ const AddProduct = () => {
             </label>
             <input
               type="text"
-              required
               id="productImage"
               name="image"
               value={product.image}
@@ -98,7 +96,6 @@ const AddProduct = () => {
             </label>
             <input
               type="text"
-              required
               id="productStock"
               name="stock"
               value={product.stock}
@@ -117,7 +114,6 @@ const AddProduct = () => {
             </label>
             <input
               type="text"
-              required
               id="productPrice"
               name="price"
               value={product.price}
