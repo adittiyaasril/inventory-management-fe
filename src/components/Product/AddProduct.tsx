@@ -4,6 +4,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import SelectGroupOne from "@/components/SelectGroup/SelectGroupOne";
 import { Product } from "@/types/product";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddProduct = () => {
   const router = useRouter();
@@ -36,14 +38,23 @@ const AddProduct = () => {
     e.preventDefault();
     try {
       await axios.post(`https://soal3-be.vercel.app/products`, product);
-      router.push("/product");
-    } catch (error) {
-      console.error("Error adding product:", error);
+      toast.success("Product added successfully", {
+        onClose: () => {
+          router.push("/product");
+        },
+      });
+    } catch (error: any) {
+      console.error(
+        "Error adding product:",
+        error.response?.data || error.message,
+      );
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <ToastContainer autoClose={1000} transition={Bounce} />
       <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
         <h3 className="font-medium text-black dark:text-white">Add Product</h3>
       </div>

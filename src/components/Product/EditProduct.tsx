@@ -10,6 +10,8 @@ import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import SelectGroupOne from "@/components/SelectGroup/SelectGroupOne";
 import { Product } from "@/types/product";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditProduct = () => {
   const router = useRouter();
@@ -53,14 +55,23 @@ const EditProduct = () => {
     e.preventDefault();
     try {
       await axios.put(`https://soal3-be.vercel.app/products/${id}`, product);
-      router.push("/product");
-    } catch (error) {
-      console.error("Error editing product:", error);
+      toast.success("Product edited successfully", {
+        onClose: () => {
+          router.push("/product");
+        },
+      });
+    } catch (error: any) {
+      console.error(
+        "Error editing product:",
+        error.response?.data || error.message,
+      );
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <ToastContainer autoClose={1000} transition={Bounce} />
       <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
         <h3 className="font-medium text-black dark:text-white">Edit Product</h3>
       </div>
