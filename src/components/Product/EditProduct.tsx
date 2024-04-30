@@ -12,10 +12,12 @@ import SelectGroupOne from "@/components/SelectGroup/SelectGroupOne";
 import { Product } from "@/types/product";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CircularProgress } from "@nextui-org/progress";
 
 const EditProduct = () => {
   const router = useRouter();
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [product, setProduct] = useState<Product>({
     id: 0,
@@ -54,6 +56,7 @@ const EditProduct = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       await axios.put(`https://soal3-be.vercel.app/products/${id}`, product);
       toast.success("Product edited successfully", {
         onClose: () => {
@@ -66,6 +69,8 @@ const EditProduct = () => {
         error.response?.data || error.message,
       );
       toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -153,9 +158,14 @@ const EditProduct = () => {
 
           <button
             type="submit"
+            disabled={isLoading}
             className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
           >
-            Edit Product
+            {isLoading ? (
+              <CircularProgress size="sm" color="success" />
+            ) : (
+              "Edit Product"
+            )}
           </button>
         </div>
       </form>

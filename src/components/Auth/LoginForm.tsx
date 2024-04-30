@@ -4,15 +4,18 @@ import { useRouter } from "next/navigation";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { CircularProgress } from "@nextui-org/progress";
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const response = await axios.post(
         "https://soal3-be.vercel.app/users/login",
         {
@@ -31,6 +34,8 @@ const LoginForm: React.FC = () => {
     } catch (error: any) {
       console.error("Login error:", error.response.data);
       toast.error("Email or password incorrect");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -109,11 +114,17 @@ const LoginForm: React.FC = () => {
         </div>
 
         <div className="mb-5">
-          <input
+          <button
             type="submit"
-            value="Sign In"
+            disabled={isLoading}
             className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-          />
+          >
+            {isLoading ? (
+              <CircularProgress size="sm" color="success" />
+            ) : (
+              "Sign In"
+            )}
+          </button>
         </div>
       </form>
     </div>

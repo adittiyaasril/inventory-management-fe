@@ -6,9 +6,11 @@ import SelectGroupOne from "@/components/SelectGroup/SelectGroupOne";
 import { Product } from "@/types/product";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CircularProgress } from "@nextui-org/progress";
 
 const AddProduct = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [product, setProduct] = useState<Partial<Product>>({
     image: "",
@@ -37,6 +39,7 @@ const AddProduct = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       await axios.post(`https://soal3-be.vercel.app/products`, product);
       toast.success("Product added successfully", {
         onClose: () => {
@@ -49,6 +52,8 @@ const AddProduct = () => {
         error.response?.data || error.message,
       );
       toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -136,9 +141,14 @@ const AddProduct = () => {
 
           <button
             type="submit"
+            disabled={isLoading}
             className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
           >
-            Add Product
+            {isLoading ? (
+              <CircularProgress size="sm" color="success" />
+            ) : (
+              "Add Product"
+            )}
           </button>
         </div>
       </form>

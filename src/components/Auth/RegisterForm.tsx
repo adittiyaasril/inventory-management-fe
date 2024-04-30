@@ -3,7 +3,7 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
-
+import { CircularProgress } from "@nextui-org/progress";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -13,11 +13,13 @@ const RegisterForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       if (password.length < 8) {
         toast.error("Password must be at least 8 characters long");
         return;
@@ -46,6 +48,8 @@ const RegisterForm = () => {
         error.response?.data || error.message,
       );
       toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -234,11 +238,17 @@ const RegisterForm = () => {
             </div>
           </div>
           <div className="mb-5">
-            <input
+            <button
               type="submit"
-              value="Create account"
+              disabled={isLoading}
               className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-            />
+            >
+              {isLoading ? (
+                <CircularProgress size="sm" color="success" />
+              ) : (
+                "Create Account"
+              )}
+            </button>
           </div>
         </form>
         <div className="mt-6 text-center">
