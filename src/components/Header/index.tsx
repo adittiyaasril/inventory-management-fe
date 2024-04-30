@@ -132,11 +132,18 @@ const Header = (props: {
           {isLoggedIn ? (
             <DropdownUser name={name} handleLogout={handleLogout} />
           ) : (
-            <Link href="/auth/signin">
-              <button className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
-                Login
-              </button>
-            </Link>
+            <div>
+              <Link href="/auth/signin">
+                <button className="mr-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+                  Login
+                </button>
+              </Link>
+              <Link href="/auth/signup">
+                <button className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+                  Register
+                </button>
+              </Link>
+            </div>
           )}
           {/* <!-- User Area --> */}
         </div>
