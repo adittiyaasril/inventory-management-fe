@@ -13,11 +13,20 @@ import { Product } from "@/types/product";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CircularProgress } from "@nextui-org/progress";
+import { CldUploadWidget } from "next-cloudinary";
+import Image from "next/image";
+
+type ResourceInfo =
+  | {
+      secure_url: string;
+    }
+  | undefined;
 
 const EditProduct = () => {
   const router = useRouter();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [resource, setResource] = useState<string | undefined>(undefined);
 
   const [product, setProduct] = useState<Product>({
     id: 0,
@@ -107,17 +116,47 @@ const EditProduct = () => {
               htmlFor="productImage"
               className="mb-3 block text-sm font-medium text-black dark:text-white"
             >
-              Image Url
+              Product Image
             </label>
-            <input
-              type="text"
-              required
-              id="productImage"
-              name="image"
-              value={product.image}
-              onChange={handleInputChange}
-              className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-            />
+            <CldUploadWidget
+              uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+              onSuccess={(result, { widget }) => {
+                const info = result?.info as ResourceInfo;
+                if (info) {
+                  setResource(info.secure_url);
+                  setProduct((prevProduct) => ({
+                    ...prevProduct,
+                    image: info.secure_url,
+                  }));
+                } else {
+                  console.error("Upload succeeded but no info received.");
+                }
+                widget.close(); // Ensure the widget is closed after successful upload
+              }}
+            >
+              {({ open }) => {
+                return (
+                  <button
+                    type="button"
+                    onClick={() => open()}
+                    className="mb-2 rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  >
+                    Upload an Image
+                  </button>
+                );
+              }}
+            </CldUploadWidget>
+            {resource && (
+              <div className="mt-2 max-w-[200px]">
+                <Image
+                  src={resource}
+                  alt="Product Preview"
+                  width={200}
+                  height={200}
+                  layout="responsive"
+                />
+              </div>
+            )}
           </div>
 
           <div className="mb-4.5">
