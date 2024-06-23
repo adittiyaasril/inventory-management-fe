@@ -16,6 +16,7 @@
     "@nextui-org/theme": "^2.2.3",
     "apexcharts": "^3.45.2",
     "axios": "^1.6.8",
+    "cloudinary": "^2.2.0",
     "flatpickr": "^4.6.13",
     "framer-motion": "^11.1.7",
     "jsvectormap": "^1.5.3",

@@ -119,7 +119,7 @@ const EditProduct = () => {
               Product Image
             </label>
             <CldUploadWidget
-              uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+              signatureEndpoint="/api/sign-cloudinary-params"
               onSuccess={(result, { widget }) => {
                 const info = result?.info as ResourceInfo;
                 if (info) {
