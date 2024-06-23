@@ -1,6 +1,6 @@
 "use client";
-import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useState, FormEvent, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -11,6 +11,16 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
+
+  useEffect(() => {
+    if (error === "not_logged_in") {
+      toast.error("You need to login first");
+    } else if (error === "invalid_token") {
+      toast.error("Your session is invalid. Please log in again.");
+    }
+  }, [error]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -25,10 +35,10 @@ const LoginForm: React.FC = () => {
         { withCredentials: true },
       );
       console.log("Login successful:", response.data);
-      document.cookie = `token=${response.data.token}`;
+      document.cookie = `token=${response.data.token}; path=/;`;
       toast.success("Login successful", {
         onClose: () => {
-          router.push("/product");
+          router.push("/product"); // Navigasi ke '/product' setelah login berhasil
         },
       });
     } catch (error: any) {

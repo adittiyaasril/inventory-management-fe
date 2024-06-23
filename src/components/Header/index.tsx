@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { jwtDecode } from "jwt-decode";
 import DarkModeSwitcher from "./DarkModeSwitcher";
@@ -15,6 +16,7 @@ const Header = (props: {
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [name, setName] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const token = document.cookie
@@ -34,6 +36,7 @@ const Header = (props: {
   const handleLogout = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     setIsLoggedIn(false);
+    router.push("/auth/signin");
   };
 
   return (
