@@ -5,10 +5,20 @@ import Link from "next/link";
 import axios from "axios";
 import { Product } from "@/types/product";
 import { Skeleton } from "@nextui-org/skeleton";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/modal";
+import { Button } from "@nextui-org/button";
 
 const Table = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const fetchProducts = async () => {
     try {
@@ -61,7 +71,7 @@ const Table = () => {
           <p className="font-medium">Stock</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Manage</p>
+          <p className=" font-medium">Manage</p>
         </div>
       </div>
 
@@ -130,29 +140,28 @@ const Table = () => {
                   {product.stock}
                 </p>
               </div>
-              <div className="col-span-1 flex items-center">
+              <div className="col-span-1 flex">
                 <div className="flex">
-                  <Link
-                    href={`/product/edit/${product.id}`}
-                    className="px-2 text-primary"
-                  >
-                    <svg
-                      width="24px"
-                      height="24px"
-                      viewBox="0 0 1024 1024"
-                      version="1.1"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M415.831 515.818H284.876c-10.33 0-18.706 8.377-18.706 18.71s8.375 18.706 18.706 18.706h130.956c10.332 0 18.708-8.374 18.708-18.706s-8.376-18.71-18.709-18.71z m-56.125 149.664h-74.831c-10.33 0-18.706 8.375-18.706 18.708 0 10.33 8.375 18.706 18.706 18.706h74.831c10.332 0 18.71-8.375 18.71-18.706 0-10.333-8.377-18.708-18.71-18.708z m187.08-280.616c0-10.332-8.377-18.71-18.708-18.71H284.876c-10.33 0-18.706 8.377-18.706 18.71s8.375 18.706 18.706 18.706h243.202c10.33 0 18.708-8.374 18.708-18.706z m37.415-261.91H434.539c-206.64 0-374.155 167.515-374.155 374.155v56.123c0 206.64 167.515 374.155 374.155 374.155h149.662c206.64 0 374.155-167.515 374.155-374.155V497.11c0-206.64-167.515-374.154-374.155-374.154zM880.039 303.5l28.726 103.557-282.189 282.187c-20.225 20.229-69.692 3.553-69.692 3.553s-16.674-49.469 3.551-69.694L880.039 303.5z m-323.9 586.473H462.6c-201.474 0-364.8-163.326-364.8-364.801 0-201.473 163.326-364.801 364.801-364.801h93.539c106.552 0 202.43 45.686 269.126 118.533L517.199 586.969c-40.182 40.182-7.829 153.342-7.829 153.342s113.159 32.353 153.342-7.829L917.83 477.364a368.212 368.212 0 0 1 3.111 47.808c-0.001 201.475-163.329 364.801-364.802 364.801z"
-                        fill="#FF4545"
-                      />
-                    </svg>
+                  <Link href={`/product/edit/${product.id}`}>
+                    <Button size="sm" className="-mx-4 bg-inherit text-primary">
+                      <svg
+                        width="24px"
+                        height="24px"
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M415.831 515.818H284.876c-10.33 0-18.706 8.377-18.706 18.71s8.375 18.706 18.706 18.706h130.956c10.332 0 18.708-8.374 18.708-18.706s-8.376-18.71-18.709-18.71z m-56.125 149.664h-74.831c-10.33 0-18.706 8.375-18.706 18.708 0 10.33 8.375 18.706 18.706 18.706h74.831c10.332 0 18.71-8.375 18.71-18.706 0-10.333-8.377-18.708-18.71-18.708z m187.08-280.616c0-10.332-8.377-18.71-18.708-18.71H284.876c-10.33 0-18.706 8.377-18.706 18.71s8.375 18.706 18.706 18.706h243.202c10.33 0 18.708-8.374 18.708-18.706z m37.415-261.91H434.539c-206.64 0-374.155 167.515-374.155 374.155v56.123c0 206.64 167.515 374.155 374.155 374.155h149.662c206.64 0 374.155-167.515 374.155-374.155V497.11c0-206.64-167.515-374.154-374.155-374.154zM880.039 303.5l28.726 103.557-282.189 282.187c-20.225 20.229-69.692 3.553-69.692 3.553s-16.674-49.469 3.551-69.694L880.039 303.5z m-323.9 586.473H462.6c-201.474 0-364.8-163.326-364.8-364.801 0-201.473 163.326-364.801 364.801-364.801h93.539c106.552 0 202.43 45.686 269.126 118.533L517.199 586.969c-40.182 40.182-7.829 153.342-7.829 153.342s113.159 32.353 153.342-7.829L917.83 477.364a368.212 368.212 0 0 1 3.111 47.808c-0.001 201.475-163.329 364.801-364.802 364.801z"
+                          fill="#FF4545"
+                        />
+                      </svg>
+                    </Button>
                   </Link>
-                  <Link
-                    href="#"
-                    onClick={() => deleteProduct(product.id)}
-                    className="px-2 text-danger"
+                  <Button
+                    size="sm"
+                    onPress={onOpen}
+                    className="bg-inherit text-danger "
                   >
                     <svg
                       width="24px"
@@ -166,7 +175,38 @@ const Table = () => {
                         fill="#E21B1B"
                       />
                     </svg>
-                  </Link>
+                  </Button>
+                  <Modal
+                    backdrop="transparent"
+                    isOpen={isOpen}
+                    onOpenChange={onOpenChange}
+                  >
+                    <ModalContent>
+                      {(onClose) => (
+                        <>
+                          <ModalHeader className="flex flex-col gap-1">
+                            Delete Product
+                          </ModalHeader>
+                          <ModalBody>
+                            <p>Do you Want to Delete The Product?</p>
+                          </ModalBody>
+                          <ModalFooter>
+                            <Button
+                              color="danger"
+                              variant="light"
+                              onClick={() => deleteProduct(product.id)}
+                              onPress={onClose}
+                            >
+                              Delete
+                            </Button>
+                            <Button color="primary" onPress={onClose}>
+                              Cancel
+                            </Button>
+                          </ModalFooter>
+                        </>
+                      )}
+                    </ModalContent>
+                  </Modal>
                 </div>
               </div>
             </div>
