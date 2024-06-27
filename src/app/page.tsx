@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Inventory Management ",
+  title: "CeltTrade Manager ",
   description:
     "Inventory Management for save your time form sorting your inventory manualy",
 };
